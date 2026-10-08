@@ -7,6 +7,9 @@
     <link rel="icon" type="image/svg+xml" 
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🫂</text></svg>">
 
+    <!-- Font Awesome for play/pause icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         * {
             box-sizing: border-box;
@@ -16,7 +19,7 @@
             margin: 0;
             min-height: 100vh;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #ffd6e0, #ffeef2);
+            background: #DAB1F9;
             overflow-x: hidden;
         }
 
@@ -26,7 +29,7 @@
         }
 
         h1 {
-            color: #BC7CED;
+            color: #e75480;
             font-size: 45px;
             margin-bottom: 10px;
             animation: heartbeat 1.5s infinite;
@@ -34,7 +37,36 @@
 
         .subtitle {
             color: #777;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* Wrapper to center the button */
+        .music-control {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Style for Play/Pause button */
+        .music-btn {
+            background: #e75480;
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .music-btn:hover {
+            background: #d6336c;
+            transform: scale(1.1);
         }
 
         .sorry-container {
@@ -122,7 +154,7 @@
 <body>
 
     <!-- Background music -->
-    <audio autoplay loop>
+    <audio id="bgm" loop>
         <source src="mp3.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -130,6 +162,13 @@
     <div class="container">
         <h1>I'm Sorry Alexza♡</h1>
         <p class="subtitle">1k nani ah bisag i count pa nimo... kay di man kaha enough ang isa ra.</p>
+
+        <!-- Centered Play/Pause button -->
+        <div class="music-control">
+            <button id="musicBtn" class="music-btn" onclick="toggleMusic()">
+                <i id="musicIcon" class="fas fa-play"></i>
+            </button>
+        </div>
 
         <div class="sorry-container" id="sorryContainer"></div>
     </div>
@@ -140,39 +179,38 @@
         // Generate "I am sorry" 1,000 times
         for (let i = 1; i <= 1000; i++) {
             const text = document.createElement("div");
-
             text.className = "sorry";
             text.textContent = "I am sorry Alexza♡";
-
-            // Slightly different animation timing for each one
             text.style.animationDelay =
                 `${(i * 0.015)}s, ${(Math.random() * 3).toFixed(2)}s`;
-
             container.appendChild(text);
         }
 
         // Floating hugging emoji
         function createHug() {
             const hug = document.createElement("div");
-
             hug.className = "hug";
             hug.textContent = "🫂";
-
             hug.style.left = Math.random() * 100 + "vw";
-            hug.style.animationDuration =
-                (3 + Math.random() * 4) + "s";
-
-            hug.style.fontSize =
-                (15 + Math.random() * 20) + "px";
-
+            hug.style.animationDuration = (3 + Math.random() * 4) + "s";
+            hug.style.fontSize = (15 + Math.random() * 20) + "px";
             document.body.appendChild(hug);
-
-            setTimeout(() => {
-                hug.remove();
-            }, 7000);
+            setTimeout(() => hug.remove(), 7000);
         }
-
         setInterval(createHug, 500);
+
+        // Play/Pause toggle with icon change
+        function toggleMusic() {
+            const audio = document.getElementById("bgm");
+            const icon = document.getElementById("musicIcon");
+            if (audio.paused) {
+                audio.play();
+                icon.className = "fas fa-pause";
+            } else {
+                audio.pause();
+                icon.className = "fas fa-play";
+            }
+        }
     </script>
 
 </body>
